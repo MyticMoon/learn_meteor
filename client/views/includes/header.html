@@ -1,0 +1,16 @@
+<template name="header">
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-coll
+apse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> </a>
+            <a class="brand" href="{{pathFor 'postsList'}}">Microscope</a>
+            <ul class="nav">
+                {{#if currentUser}} <li><a href="{{pathFor 'postSubmit'}}">New</a></li> {{/if}}
+            </ul>
+            {{> loginButtons}}
+        </div>
+    </header>
+</template>
