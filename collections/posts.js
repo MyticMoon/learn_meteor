@@ -3,7 +3,7 @@ Posts = new Meteor.Collection('posts');
 Meteor.methods({
     post: function(postAttributes) {
         var user = Meteor.user(),
-            postWithSameLink = Posts.findOne({url: postAttributes.url})
+            postWithSameLink = Posts.findOne({url: postAttributes.url});
 
         if(!user)
             throw new Meteor.Error(401, "You need to login to post new stories");
@@ -27,5 +27,13 @@ Meteor.methods({
 Posts.allow({
     insert: function(userId, doc) {
 // only allow posting if you are logged in
-        return !! userId; }
+        return !! userId; },
+    update: ownsDocument,
+    remove: ownsDocument
+});
+
+Posts.deny({
+    update: function(userId, post, fieldNames){
+        return (_.without(fieldNames, 'url', 'title').length > 0);
+    }
 });

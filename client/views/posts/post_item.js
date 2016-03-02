@@ -7,7 +7,7 @@ Template.postItem.helpers({
         return false;
     },
     domain: function(){
-        var a = document.createDocument('a');
+        var a = document.implementation.createHTMLDocument('a');
         a.href = this.url;
         return a.hostname;
     }
