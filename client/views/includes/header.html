@@ -1,16 +1,11 @@
-<template name="header">
-    <header class="navbar">
-        <div class="navbar-inner">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-coll
-apse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span> </a>
-            <a class="brand" href="{{pathFor 'postsList'}}">Microscope</a>
-            <ul class="nav">
-                {{#if currentUser}} <li><a href="{{pathFor 'postSubmit'}}">New</a></li> {{/if}}
-            </ul>
-            {{> loginButtons}}
-        </div>
-    </header>
+<template name="header" xmlns="http://www.w3.org/1999/html">
+
+    <a class="sidebar-brand active" href="{{pathFor 'postsList'}}">Memory Cycle</a>
+    <ul class="nav components-nav sidebar-menu">
+        {{#if currentUser}}<li class="nav-item sidebar-menu-item"><a href="{{pathFor 'postSubmit'}}" class="nav-link sidebar-menu-button">New</a></li>{{/if}}
+    </ul>
+    <div class="sidebar-heading">
+        {{> loginButtons}}
+    </div>
+
 </template>

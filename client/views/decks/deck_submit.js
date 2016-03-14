@@ -1,7 +1,6 @@
 
 Template.decksList.events({
     'submit form': function(e) {
-        alert("clicked");
         e.preventDefault();
         var deck = {
             title: $(e.target).find('[name=title]').val()
@@ -16,5 +15,6 @@ Template.decksList.events({
             } else {
             }
         });
+
     }
 });

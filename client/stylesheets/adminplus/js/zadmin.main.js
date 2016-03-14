@@ -1,1 +1,0 @@
-AdminPlus.Sidebar.init();
