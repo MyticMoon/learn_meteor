@@ -6,5 +6,6 @@ Meteor.publish('decks', function(options){
     return Decks.find({}, options);
 });
 
-
-
+Meteor.publish('cards', function(options){
+    return Cards.find({}, options);
+});
