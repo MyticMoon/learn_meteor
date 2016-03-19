@@ -1,9 +1,7 @@
 <template name="header" xmlns="http://www.w3.org/1999/html">
 
-    <a class="sidebar-brand active" href="{{pathFor 'postsList'}}">Memory Cycle</a>
-    <ul class="nav components-nav sidebar-menu">
-        {{#if currentUser}}<li class="nav-item sidebar-menu-item"><a href="{{pathFor 'postSubmit'}}" class="nav-link sidebar-menu-button">New</a></li>{{/if}}
-    </ul>
+    <a class="sidebar-brand active" href="{{pathFor 'learnPage'}}">Memory Cycle</a>
+
     <div class="sidebar-heading">
         {{> loginButtons}}
     </div>

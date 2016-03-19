@@ -32,7 +32,7 @@ Template.deckEdit.events({
             }
             else{
                 Decks.remove(currentDeckId);
-                Router.go('postsList');
+                Router.go('learnPage');
             }
         } }
 });
