@@ -1,6 +1,10 @@
 Template.cardsList.helpers({
-    getCards: function() {
-        var deck = Decks.findOne(Session.get('currentDeckId'));
-
+    'cardsList': function(){
+        var currentDeckId = Session.get('currentDeckId');
+        return Cards.find({deckId: currentDeckId});
+    },
+    'currentDeckId': function()
+    {
+        return {_id: Session.get('currentDeckId')};
     }
 });

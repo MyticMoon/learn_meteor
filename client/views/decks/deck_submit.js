@@ -6,6 +6,9 @@ Template.decksList.events({
             title: $(e.target).find('[name=title]').val()
         };
 
+        //clear input field
+        $(e.target).find('[name=title]').val('');
+
         Meteor.call('postDeck', deck, function (error, id) {
             if (error){
                 throwError(error.reason);

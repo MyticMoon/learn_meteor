@@ -13,11 +13,10 @@ Meteor.methods({
             userId: user._id,
             author: user.username,
             submitted: new Date().getTime(),
-            cards: []
+            countCard: 0
         });
 
-        var deckId = Decks.insert(deck);
-        return deckId;
+        return Decks.insert(deck);
     }
 });
 

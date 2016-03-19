@@ -3,6 +3,26 @@
  */
 Cards = new Meteor.Collection('cards');
 
+Meteor.methods({
+    postCard: function (cardAttributes) {
+        var user = Meteor.user();
+
+        if(!user)
+            throw new Meteor.Error(401, "You need to login to create new decks");
+        if(!cardAttributes.title || !cardAttributes.keyword || !cardAttributes.definition)
+            throw new Meteor.Error(422, "Please fill with a headline");
+
+        var card = _.extend(_.pick(cardAttributes, 'title', 'keyword', 'definition', 'deckId'), {
+            userId: user._id,
+            author: user.username,
+            submitted: new Date().getTime()
+        });
+
+        var cardId = Cards.insert(card);
+        return cardId;
+    }
+});
+
 Cards.allow({
     insert: function(userId, doc) {
         return !!userId;
