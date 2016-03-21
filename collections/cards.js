@@ -15,7 +15,8 @@ Meteor.methods({
         var card = _.extend(_.pick(cardAttributes, 'title', 'keyword', 'definition', 'deckId'), {
             userId: user._id,
             author: user.username,
-            submitted: new Date().getTime()
+            submitted: new Date().getTime(),
+            memoryPoint: 10
         });
 
         var cardId = Cards.insert(card);

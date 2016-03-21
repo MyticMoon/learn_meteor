@@ -2,7 +2,7 @@ Template.cardsList.events({
     'submit form': function(e) {
         e.preventDefault();
         var currentDeckId = Session.get('currentDeckId');
-        var card = {
+        var learnHistory = {
             title: $(e.target).find('[name=title]').val(),
             keyword: $(e.target).find('[name=keyword]').val(),
             definition: $(e.target).find('[name=definition]').val(),
@@ -14,7 +14,7 @@ Template.cardsList.events({
         $(e.target).find('[name=keyword]').val('');
         $(e.target).find('[name=definition]').val('');
 
-        Meteor.call('postCard', card, function (error, id) {
+        Meteor.call('postLearnHistory', learnHistory, function (error, id) {
             if (error){
                 throwError(error.reason);
                 if(error.error === 302) {
