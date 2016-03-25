@@ -1,6 +1,6 @@
 Template.learnPage.helpers({
     'cardsLearn': function(){
-        var cardToLearns = LearningDeck.find();
+        var cardToLearns = LearningDeck.find({learnDeckType: "mainLearnPage"});
         var cards = [];
         var listOfCardIds = [];
         if(cardToLearns.count() == 0) {
@@ -8,7 +8,7 @@ Template.learnPage.helpers({
             var listOfDecksId = decks.map(function(element){return element._id;});
             cards = Cards.find({deckId: {$in: listOfDecksId}});
             listOfCardIds = cards.map(function(card) {return card._id});
-            addLearningDeck(listOfCardIds);
+            addLearningDeck(listOfCardIds, "mainLearnPage");
             return cards;
         }
         else {
@@ -16,14 +16,12 @@ Template.learnPage.helpers({
             cards = Cards.find({_id: {$in: listOfCardIds}});
             return cards;
         }
-
     }
 });
 
 Template.cardLearn.events({
     'submit form': function(e) {
         e.preventDefault();
-        //var currentDeckId = Session.get('currentDeckId');
         var learnHistory = {
             cardId: $(e.target).find('[name=cardId]').val(),
             userInput: $(e.target).find('[name=userInput]').val(),
@@ -32,24 +30,11 @@ Template.cardLearn.events({
 
         if(learnHistory.userInput == learnHistory.keyword){
             alert("Correct");
-            removeLearningDeck(learnHistory.cardId);
+            removeLearningDeck(learnHistory.cardId, "mainLearnPage");
         }
         else{
             alert("Incorrect");
+            increaseAttempt(learnHistory.cardId, "mainLearnPage");
         }
-
-        //clear input fields
-        $(e.target).find('[name=userInput]').val('');
-
-        Meteor.call('postCard', card, function (error, id) {
-            if (error){
-                throwError(error.reason);
-                if(error.error === 302) {
-                    //Router.go('postPage', {_id: error.details}, {});
-                }
-            } else {
-                //Router.go('cardsList', {_id: currentDeckId});
-            }
-        });
     }
 });
