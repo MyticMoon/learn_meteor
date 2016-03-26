@@ -30,7 +30,7 @@ Template.cardLearn.events({
 
         if(learnHistory.userInput == learnHistory.keyword){
             alert("Correct");
-            removeLearningDeck(learnHistory.cardId, "mainLearnPage");
+            answerCorrect(learnHistory.cardId, "mainLearnPage");
         }
         else{
             alert("Incorrect");
