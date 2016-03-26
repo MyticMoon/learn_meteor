@@ -7,6 +7,7 @@ Template.learnPage.helpers({
             var decks = Decks.find({userId: Meteor.userId()});
             var listOfDecksId = decks.map(function(element){return element._id;});
             cards = Cards.find({deckId: {$in: listOfDecksId}});
+            cards = randomizeCard(cards, 4);
             listOfCardIds = cards.map(function(card) {return card._id});
             addLearningDeck(listOfCardIds, "mainLearnPage");
             return cards;
@@ -38,3 +39,10 @@ Template.cardLearn.events({
         }
     }
 });
+
+randomizeCard = function(cardList, numberOfCards) {
+    cardList = cardList.map(function(card) { card.randomPoint = card.memoryPoint * Math.random(); return card; });
+    cardList = cardList.sort(function(a, b) {return a.randomPoint < b.randomPoint;});
+    cardList = cardList.splice(numberOfCards);
+    return cardList;
+};
