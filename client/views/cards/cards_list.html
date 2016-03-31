@@ -1,6 +1,8 @@
 <template name="cardsList">
     <a class="btn btn-primary" href="{{pathFor 'deckEdit' data=currentDeckId}}">Edit Deck</a>
     <a class="btn btn-info" href="{{pathFor 'learnDeck' data=currentDeckId}}">Learn Deck</a>
+    <a class="btn btn-info" href="{{pathFor 'deckToMarket' data=currentDeckId}}">Bring To Market</a>
+
     <div class="card-columns">
         <div class="card" style="border-color: #333; width: 400px;">
             <div class="card-block">
