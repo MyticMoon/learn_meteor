@@ -6,7 +6,8 @@ Template.cardsList.events({
             title: $(e.target).find('[name=title]').val(),
             keyword: $(e.target).find('[name=keyword]').val(),
             definition: $(e.target).find('[name=definition]').val(),
-            deckId: currentDeckId
+            deckId: currentDeckId,
+            type: "personalCard"
         };
 
         //clear input fields

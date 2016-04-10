@@ -3,7 +3,8 @@ Template.decksList.events({
     'submit form': function(e) {
         e.preventDefault();
         var deck = {
-            title: $(e.target).find('[name=title]').val()
+            title: $(e.target).find('[name=title]').val(),
+            type: "personalDeck"
         };
 
         //clear input field
