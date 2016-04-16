@@ -29,18 +29,7 @@ Meteor.methods({
         if(!user)
             throw new Meteor.Error(401, "You need to login to add card to market");
 
-        var cardsToMarket =  cardsInOriginalDeck.map(function(card){
-            var cardToMarket = _.extend(_.pick(card, 'title', 'keyword', 'definition', 'version', 'author', 'userId'), {
-                deckId: id,
-                type: "marketCard",
-                originalCardId: card._id,
-                submitted: new Date().getTime(),
-                memoryPoint: 10
-            });
-            return cardToMarket;
-        });
-
-        cardsToMarket.map(function(cardToMarket){
+        cardsInOriginalDeck.map(function(cardToMarket){
             Cards.insert(cardToMarket);
         });
     }
