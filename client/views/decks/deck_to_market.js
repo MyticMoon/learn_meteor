@@ -6,6 +6,13 @@ Template.deckToMarket.events({
         e.preventDefault();
         var currentDeckId = Session.get('currentDeckId');
 
+        var deckInMarket = Decks.find({originalDeckId: currentDeckId, type: 'marketDeck'});
+        if(deckInMarket.count() != 0)
+        {
+            alert("Deck was published before");
+            throw new Meteor.Error(422, "Deck was published before");
+        }
+
         //TODO: put data validation here
         var deckToMarket = {
             title: $(e.target).find('[name=title]').val(),
