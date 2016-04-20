@@ -17,4 +17,3 @@ Meteor.publish('marketPlace', function(options){
 Meteor.publish('learnHistory', function(options){
     return LearnHistory.find({}, options);
 });
-

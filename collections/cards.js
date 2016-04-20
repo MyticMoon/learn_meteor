@@ -23,7 +23,7 @@ Meteor.methods({
         return cardId;
     },
 
-    postCardsToMarket: function(cardsInOriginalDeck) {
+    addCardsToDeck: function(cardsInOriginalDeck) {
         var user = Meteor.user();
 
         if(!user)
