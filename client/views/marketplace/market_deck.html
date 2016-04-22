@@ -5,6 +5,14 @@
             <h4 class="card-title">{{title}}</h4>
             <h4 class="card-title">Price: {{price}}</h4>
             <p class="card-text">{{description}}</p>
+            <form>
+                <fieldset class="form-group">
+                    <input type="hidden" name="deckId" value="{{_id}}" class="form-control">
+                    <input type="hidden" name="originalDeckId" value="{{originalDeckId}}" class="form-control">
+                    <input type="hidden" name="price" value="{{price}}" class="form-control">
+                </fieldset>
+                <button type="submit" value="submit" class="btn btn-primary submit">Purchase Desk</button>
+            </form>
             <!--{{#if not ownCard}} <a class="btn btn-primary" href="">Get Deck</a> {{/if}}-->
         </div>
     </div>
