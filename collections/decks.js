@@ -54,6 +54,11 @@ Meteor.methods({
         if(!deckToMarket.title || !deckToMarket.originalDeckId || !deckToMarket.price)
             throw new Meteor.Error(422, "Please fill with a title");
 
+        var originalMarketDeck = Decks.findOne({_id: deckToMarket.originalDeckId});
+
+        if(!originalMarketDeck)
+            throw new Meteor.Error(422, "Original deck can't be found");
+
         var deck = _.extend(_.pick(deckToMarket, 'title', 'description', 'price', 'originalDeckId', 'originalMarketDeckId', 'type', 'author', 'authorId'), {
             userId: user._id,
             submitted: new Date().getTime(),
