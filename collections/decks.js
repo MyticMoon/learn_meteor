@@ -11,6 +11,7 @@ Meteor.methods({
 
         var deck = _.extend(_.pick(deckAttributes, 'title', 'type'), {
             userId: user._id,
+            authorId: user._id,
             author: user.username,
             submitted: new Date().getTime(),
             version: 1,
@@ -34,6 +35,7 @@ Meteor.methods({
 
         var deck = _.extend(_.pick(deckToMarket, 'title', 'description', 'price', 'originalDeckId', 'type'), {
             userId: user._id,
+            authorId: user._id,
             author: user.username,
             submitted: new Date().getTime(),
             version: originalDeck.version,
@@ -48,6 +50,7 @@ Meteor.methods({
 
         if(!user)
             throw new Meteor.Error(401, "You need to login to create new decks");
+
         if(!deckToMarket.title || !deckToMarket.originalDeckId || !deckToMarket.price)
             throw new Meteor.Error(422, "Please fill with a title");
 
@@ -55,9 +58,8 @@ Meteor.methods({
         if(!originalMarketDeck)
             throw new Meteor.Error(422, "Original deck can't be found");
 
-        var deck = _.extend(_.pick(deckToMarket, 'title', 'description', 'price', 'originalDeckId', 'originalMarketDeckId', 'type'), {
+        var deck = _.extend(_.pick(deckToMarket, 'title', 'description', 'price', 'originalDeckId', 'originalMarketDeckId', 'type', 'author', 'authorId'), {
             userId: user._id,
-            author: user.username,
             submitted: new Date().getTime(),
             version: originalMarketDeck.version,
             countCard: 0

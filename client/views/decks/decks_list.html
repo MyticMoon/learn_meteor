@@ -5,10 +5,21 @@
         </fieldset>
         <button type="submit" class="btn btn-white">Submit</button>
     </form>
+    {{#if decks.count }}
+        Personal Decks
+    {{/if}}
     {{#each decks}}
         <ul class="nav components-nav sidebar-menu">
             {{> deckItem}}
         </ul>
     {{/each}}
 
+    {{#if purchasedDecks.count}}
+    From market
+    {{/if}}
+    {{#each purchasedDecks}}
+        <ul class="nav components-nav sidebar-menu">
+            {{> deckItem}}
+        </ul>
+    {{/each}}
 </template>
