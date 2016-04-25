@@ -1,3 +1,1 @@
-1) To view the database:
- - meteor mongo
- - db.<dbname>.find()
+Simply run meteor to start the project
