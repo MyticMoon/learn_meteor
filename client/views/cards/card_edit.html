@@ -12,4 +12,15 @@
             </form>
         </div>
     </div>
+    {{> s3_tester}}
+
+</template>
+
+<template name="s3_tester">
+    <input type="file" class="file_bag">
+    <button class="upload">Upload</button>
+
+    {{#each files}}
+        <p>{{percent_uploaded}}</p>
+    {{/each}}
 </template>
