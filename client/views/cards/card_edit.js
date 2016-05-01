@@ -1,6 +1,33 @@
 Template.cardEdit.helpers({
     card: function() {
         return Cards.findOne(Session.get('currentCardId'));
+    },
+
+    finishedUpload: function() {
+        var cardId = Session.get('currentCardId');
+        if(Session.get(cardId + 'finishUpload')) {
+            $('#description_image').attr('src', Session.get('tmpPhoto'));
+            $('#description_image').css('visibility', 'visible');
+            $('#description_image').cropper({
+                aspectRatio: 16 / 9,
+                crop: function(e) {
+                    // Output the result data for cropping image.
+                    console.log(e.x);
+                    console.log(e.y);
+                    console.log(e.width);
+                    console.log(e.height);
+                    console.log(e.rotate);
+                    console.log(e.scaleX);
+                    console.log(e.scaleY);
+                }
+            });
+        }
+        return Session.get(cardId + 'finishUpload');
+    },
+
+    tmpPhoto: function() {
+        var cardId = Session.get('currentCardId');
+        return Session.get(cardId + 'tmpPhoto');
     }
 });
 
@@ -33,18 +60,44 @@ Template.cardEdit.events({
             var currentCardId = Session.get('currentCardId');
             Cards.remove(currentCardId);
             Router.go('cardsList', {_id: currentDeckId});
-    } }
-});
+    } },
 
-Template.s3_tester.events({
     "click button.upload": function(){
-        var files = $("input.file_bag")[0].files;
+        alert("clicked");
+        var file = $("input.file_bag")[0].files[0];
+        if(file.size > 5000000)
+        {
+            alert("The image is too big.");
+            return;
+        }
 
         S3.upload({
-            files:files,
-            path:"subfolder"
+            files:[file],
+            path:"tmp"
         },function(e,r){
-            console.log(r);
+            if(e == null) {
+                var cardId = Session.get('currentCardId');
+                Session.set(cardId + 'finishUpload', true);
+                Session.set(cardId + 'tmpPhoto', r.secure_url);
+                $('#description_image').attr('src', r.secure_url);
+                $('#image_crop').css('visibility', 'visible');
+                $('#description_image').cropper({
+                    aspectRatio: 1,
+                    crop: function(e) {
+                        // Output the result data for cropping image.
+                        console.log(e.x);
+                        console.log(e.y);
+                        console.log(e.width);
+                        console.log(e.height);
+                        console.log(e.rotate);
+                        console.log(e.scaleX);
+                        console.log(e.scaleY);
+                    }
+                });
+            }
+            else{
+                alert("Upload has failed");
+            }
         });
     }
 });
@@ -54,3 +107,23 @@ Template.s3_tester.helpers({
         return S3.collection.find();
     }
 });
+
+//Template.s3_tester.events({
+//    "click button.upload": function(){
+//        alert("clicked");
+//        var file = $("input.file_bag")[0].files[0];
+//        if(file.size > 500000000)
+//        {
+//            alert("The image is too big.");
+//            return;
+//        }
+//
+//        S3.upload({
+//            files:file,
+//            path:"subfolder"
+//        },function(e,r){
+//            console.log(r);
+//        });
+//    }
+//});
+
