@@ -56,3 +56,14 @@ https://atmospherejs.com/lepozepo/s3
     }
     Click Save
 
+2) Use cropper library for cropping, it's really easy to set up and use. It has wide variety of features. Would recommend for anyone who wants a stunning image cropper.
+
+3) Transform base64 data URL to file Blob to save to S3 bucket
+    dataURLtoBlob = function (dataurl) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type:mime});
+    };
