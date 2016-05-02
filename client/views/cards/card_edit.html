@@ -6,6 +6,7 @@
                     <input type="text" name="title" value="{{title}}" class="form-control" placeholder="Card name" autocomplete="off" style="cursor: auto; background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAALZJREFUOBFjYKAANDQ0rGWiQD9IqzgL0BQ3IKMXiB8AcSKQ/waIrYDsKUD8Fir2pKmpSf/fv3+zgPxfzMzMSbW1tbeBbAaQC+b+//9fB4h9gOwikCAQTAPyDYHYBciuBQkANfcB+WZAbPP37992kBgIUOoFBiZGRsYkIL4ExJvZ2NhAXmFgYmLKBPLPAfFuFhaWJpAYEBQC+SeA+BDQC5UQIQpJYFgdodQLLyh0w6j20RCgUggAAEREPpKMfaEsAAAAAElFTkSuQmCC&quot;); background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;">
                     <div id="image_crop" style="visibility: hidden;">
                         <img id="description_image" src="">
+                        <button class="btn btn-info crop-image">Crop Image</button>
                     </div>
                     <input type="file" class="file_bag" accept="image/gif, image/jpeg, image/png" />
                     <button class="upload">Upload</button>
@@ -17,15 +18,6 @@
             </form>
         </div>
     </div>
-    <!--{{> s3_tester}}-->
-    <!--<input type="file" class="file_bag" accept="image/gif, image/jpeg, image/png" />-->
-    <!--<button class="upload">Upload</button>-->
-
-    <!--{{#if finishedUpload}}-->
-        <!--<div>Image has finished upload</div>-->
-        <!--<img id="description_image" src="{{tmpPhoto}}">-->
-        <!--<img id="description_image" style="visibility: hidden;" src="">-->
-    <!--{{/if}}-->
 </template>
 
 <template name="s3_tester">

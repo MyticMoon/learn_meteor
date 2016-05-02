@@ -3,28 +3,6 @@ Template.cardEdit.helpers({
         return Cards.findOne(Session.get('currentCardId'));
     },
 
-    finishedUpload: function() {
-        var cardId = Session.get('currentCardId');
-        if(Session.get(cardId + 'finishUpload')) {
-            $('#description_image').attr('src', Session.get('tmpPhoto'));
-            $('#description_image').css('visibility', 'visible');
-            $('#description_image').cropper({
-                aspectRatio: 16 / 9,
-                crop: function(e) {
-                    // Output the result data for cropping image.
-                    console.log(e.x);
-                    console.log(e.y);
-                    console.log(e.width);
-                    console.log(e.height);
-                    console.log(e.rotate);
-                    console.log(e.scaleX);
-                    console.log(e.scaleY);
-                }
-            });
-        }
-        return Session.get(cardId + 'finishUpload');
-    },
-
     tmpPhoto: function() {
         var cardId = Session.get('currentCardId');
         return Session.get(cardId + 'tmpPhoto');
@@ -63,7 +41,6 @@ Template.cardEdit.events({
     } },
 
     "click button.upload": function(){
-        alert("clicked");
         var file = $("input.file_bag")[0].files[0];
         if(file.size > 5000000)
         {
@@ -79,19 +56,39 @@ Template.cardEdit.events({
                 var cardId = Session.get('currentCardId');
                 Session.set(cardId + 'finishUpload', true);
                 Session.set(cardId + 'tmpPhoto', r.secure_url);
-                $('#description_image').attr('src', r.secure_url);
+
+                var $image = $('#description_image'),
+                    cropBoxData,
+                    canvasData,
+                    $cropBtn = $('.crop-image'),
+                    formData = new FormData(), croppedCanvas = $().cropper('getCroppedCanvas');
+
+                $image.attr('src', r.secure_url);
                 $('#image_crop').css('visibility', 'visible');
-                $('#description_image').cropper({
+                $image.cropper({
                     aspectRatio: 1,
-                    crop: function(e) {
-                        // Output the result data for cropping image.
-                        console.log(e.x);
-                        console.log(e.y);
-                        console.log(e.width);
-                        console.log(e.height);
-                        console.log(e.rotate);
-                        console.log(e.scaleX);
-                        console.log(e.scaleY);
+                    autoCropArea: 0.80,
+                    crop: function (data) {
+                        cropImgData = data; // save returned data to cropImgData.
+                        console.log(cropImgData);   //cropImgData is the returned data from cropper
+                    },
+                    built: function () {
+                        // Strict mode: set crop box data first
+                        $image.cropper('setCropBoxData', cropBoxData);
+                        $image.cropper('setCanvasData', canvasData);
+                        $cropBtn.on('click', function () {
+                            var tmp = $image.cropper('getCroppedCanvas');
+                            var file = tmp.toDataURL("image/png");
+                            var fileBlob = dataURLtoBlob(file);
+
+                            S3.upload({
+                                files:[fileBlob],
+                                path:"cardDefiniton"
+
+                            }, function(e,r) {
+                                alert("success");
+                            });
+                        });
                     }
                 });
             }
@@ -99,7 +96,16 @@ Template.cardEdit.events({
                 alert("Upload has failed");
             }
         });
+
+
+    },
+
+
+    "click button.crop": function(){
+        $('#description_image').cropper('getCroppedCanvas');
     }
+
+
 });
 
 Template.s3_tester.helpers({
@@ -107,23 +113,4 @@ Template.s3_tester.helpers({
         return S3.collection.find();
     }
 });
-
-//Template.s3_tester.events({
-//    "click button.upload": function(){
-//        alert("clicked");
-//        var file = $("input.file_bag")[0].files[0];
-//        if(file.size > 500000000)
-//        {
-//            alert("The image is too big.");
-//            return;
-//        }
-//
-//        S3.upload({
-//            files:file,
-//            path:"subfolder"
-//        },function(e,r){
-//            console.log(r);
-//        });
-//    }
-//});
 
