@@ -16,9 +16,9 @@ addLearningDeck = function(ids, deckType) {
 
 increaseAttempt = function(id, deckType) {
     var learningCard = LearningDeck.findOne({cardId: id, learnDeckType: deckType});
-
     var card = Cards.findOne({_id: id});
     var score = 10;
+
     if (typeof card.memoryPoint != "undefined") {
         score = card.memoryPoint;
     }

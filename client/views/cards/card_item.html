@@ -1,11 +1,14 @@
 <template name="cardItem">
     <div class="card" style="background-color: #333; border-color: #333; width: 400px;">
-        <img class="card-img" src="http://res.cloudinary.com/nightfable/image/upload/v1458376717/emma3_keszxu.jpg" alt="Card image">
+        <img class="card-img" style=" width: 100%;height: auto;" src="https://res.cloudinary.com/nightfable/image/upload/v1453125264/card9resized_wlzccl.jpg" alt="Card image">
         <div class="card-img-overlay">
             <h4 class="card-title">{{title}}</h4>
-            <p class="card-text">Memory point is: {{memoryPoint}}</p>
+            <p class="card-text">
+                <img class="img-responsive" style=" width: 100%;height: auto;" src="{{descriptionPhoto}}"/>
+            </p>
             <p class="card-text"><b>{{keyword}}</b></p>
             <p class="card-text">{{definition}}</p>
+            <p class="card-text">Memory point is: {{memoryPoint}}</p>
             {{#if ownCard}} <a href="{{pathFor 'cardEdit'}}">Edit</a> {{/if}}
         </div>
     </div>

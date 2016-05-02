@@ -17,8 +17,19 @@ Template.cardEdit.events({
         var card = {
             title: $(e.target).find('[name=title]').val(),
             keyword: $(e.target).find('[name=keyword]').val(),
-            definition: $(e.target).find('[name=definition]').val()
+            definition: $(e.target).find('[name=definition]').val(),
+            descriptionPhoto: $(e.target).find('[name=descriptionPhoto]').val()
         };
+
+        var currentDescriptionPhoto = Session.get(currentCardId + "descriptionPhoto");
+        if(currentDescriptionPhoto != null) {
+            if(card.descriptionPhoto != null) {
+                S3.delete(card.descriptionPhoto);
+            }
+            card.descriptionPhoto = currentDescriptionPhoto;
+            //remove photo URL in session after save it
+            Session.set(currentCardId + "descriptionPhoto", null);
+        }
 
         Cards.update(currentCardId, {$set: card}, function(error) {
             if (error){
@@ -86,7 +97,9 @@ Template.cardEdit.events({
                                 path:"cardDefiniton"
 
                             }, function(e,r) {
-                                alert("success");
+                                if(e == null) {
+                                    Session.set(cardId + "descriptionPhoto", r.secure_url);
+                                }
                             });
                         });
                     }
@@ -96,10 +109,7 @@ Template.cardEdit.events({
                 alert("Upload has failed");
             }
         });
-
-
     },
-
 
     "click button.crop": function(){
         $('#description_image').cropper('getCroppedCanvas');
