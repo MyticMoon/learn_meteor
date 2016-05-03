@@ -8,9 +8,13 @@ Template.cardsList.events({
             keyword: $(e.target).find('[name=keyword]').val(),
             definition: $(e.target).find('[name=definition]').val(),
             descriptionPhoto: Session.get(cardId + "descriptionPhoto"),
+            descriptionPhotoPath: Session.get(cardId + "descriptionPhotoPath"),
             deckId: currentDeckId,
             type: "personalCard"
         };
+
+        Session.set(cardId + "descriptionPhoto", null);
+        Session.set(cardId + "descriptionPhotoPath", null);
 
         //clear input fields
         $(e.target).find('[name=title]').val('');
@@ -77,6 +81,7 @@ Template.cardsList.events({
 
                             }, function(e,r) {
                                 if(e == null) {
+                                    Session.set(cardId + "descriptionPhotoPath", r.relative_url);
                                     Session.set(cardId + "descriptionPhoto", r.secure_url);
                                     Session.set(cardId + 'finishUpload', true);
                                     $image.cropper('destroy');

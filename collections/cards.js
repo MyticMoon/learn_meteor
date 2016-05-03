@@ -12,7 +12,7 @@ Meteor.methods({
         if(!cardAttributes.title || !cardAttributes.keyword || !cardAttributes.definition)
             throw new Meteor.Error(422, "Please fill with a headline");
 
-        var card = _.extend(_.pick(cardAttributes, 'title', 'keyword', 'definition', 'deckId', 'type', 'descriptionPhoto'), {
+        var card = _.extend(_.pick(cardAttributes, 'title', 'keyword', 'definition', 'deckId', 'type', 'descriptionPhoto', 'descriptionPhotoPath'), {
             userId: user._id,
             authorId: user._id,
             author: user.username,

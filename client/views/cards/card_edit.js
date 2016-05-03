@@ -24,11 +24,13 @@ Template.cardEdit.events({
         var currentDescriptionPhoto = Session.get(currentCardId + "descriptionPhoto");
         if(currentDescriptionPhoto != null) {
             if(card.descriptionPhoto != null) {
-                S3.delete(card.descriptionPhoto);
+                S3.delete(card.descriptionPhotoPath, function(e, r){});
             }
             card.descriptionPhoto = currentDescriptionPhoto;
+            card.descriptionPhotoPath = Session.get(currentCardId + "descriptionPhotoPath");
             //remove photo URL in session after save it
             Session.set(currentCardId + "descriptionPhoto", null);
+            Session.set(currentCardId + "descriptionPhotoPath", null);
         }
 
         Cards.update(currentCardId, {$set: card}, function(error) {
@@ -47,6 +49,10 @@ Template.cardEdit.events({
         if (confirm("Delete this card?")) {
             var currentDeckId = Session.get('currentDeckId');
             var currentCardId = Session.get('currentCardId');
+            var card = Cards.findOne({_id: currentCardId});
+            if(card != null && card.descriptionPhoto != null) {
+                S3.delete(card.descriptionPhotoPath, function(e, r){});
+            }
             Cards.remove(currentCardId);
             Router.go('cardsList', {_id: currentDeckId});
     } },
@@ -98,7 +104,10 @@ Template.cardEdit.events({
 
                             }, function(e,r) {
                                 if(e == null) {
+                                    Session.set(cardId + "descriptionPhotoPath", r.relative_url);
                                     Session.set(cardId + "descriptionPhoto", r.secure_url);
+                                    Session.set(cardId + 'finishUpload', true);
+                                    $image.cropper('destroy');
                                 }
                             });
                         });
