@@ -28,6 +28,7 @@ Template.cardsList.events({
                     //Router.go('postPage', {_id: error.details}, {});
                 }
             } else {
+                $('#description_image').attr('src', '');
                 Router.go('cardsList', {_id: currentDeckId});
             }
         });
@@ -85,6 +86,7 @@ Template.cardsList.events({
                                     Session.set(cardId + "descriptionPhoto", r.secure_url);
                                     Session.set(cardId + 'finishUpload', true);
                                     $image.cropper('destroy');
+                                    $image.attr('src', r.secure_url);
                                 }
                             });
                         });

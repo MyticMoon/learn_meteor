@@ -35,7 +35,7 @@ Template.marketDeck.events({
                 var cardsInOriginalDeck = Cards.find({deckId: currentDeckId});
 
                 var cardsToMarket =  cardsInOriginalDeck.map(function(card){
-                    var purchasedCard = _.extend(_.pick(card, 'title', 'keyword', 'definition', 'version', 'author', 'userId'), {
+                    var purchasedCard = _.extend(_.pick(card, 'title', 'keyword', 'definition', 'version', 'author', 'authorId', 'descriptionPhoto'), {
                         deckId: id,
                         userId: user._id,
                         type: "marketCard",

@@ -4,8 +4,8 @@ I made a big progress in uploading image to S3, it was a really fun process of l
 Upload to S3 makes it way easier to manage asset files and really cheap solution.
 Outstanding to to for image upload:
     - Test image remove (done)
-    - Set S3 bucket in a way that it will remove images in tmp folder after 3 days
-    - Fine tuning in image upload
+    - Set S3 bucket in a way that it will remove images in tmp folder after 3 days (done)
+    - Fine tuning in image upload (done)
 
 Future to-do list:
     - Next thing to tackle:
