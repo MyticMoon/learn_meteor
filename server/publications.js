@@ -6,8 +6,12 @@ Meteor.publish('decks', function(options){
     return Decks.find({}, options);
 });
 
-Meteor.publish('cards', function(options){
+Meteor.publish('cards', function(options) {
     return Cards.find({}, options);
+});
+
+Meteor.publish('cardsInDeck', function(query ,sort, limit) {
+    return Cards.find(query, {sort: sort, limit: limit});
 });
 
 Meteor.publish('marketPlace', function(options){
