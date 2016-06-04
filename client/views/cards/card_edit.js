@@ -53,7 +53,20 @@ Template.cardEdit.events({
             if(card != null && card.descriptionPhoto != null) {
                 S3.delete(card.descriptionPhotoPath, function(e, r){});
             }
+
+            var deck = Decks.findOne({_id: card.deckId});
+            deck.cardCount = deck.cardCount - 1;
+            Decks.update(card.deckId, {$set: deck}, function (error) {
+                if (error) {
+                    throwError(error.reason);
+                    if (error.error === 302) {
+                        //Router.go('postPage', {_id: error.details}, {});
+                    }
+                }
+            });
+
             Cards.remove(currentCardId);
+
             Router.go('cardsList', {_id: currentDeckId});
     } },
 

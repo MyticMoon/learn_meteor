@@ -15,7 +15,7 @@ Meteor.methods({
             author: user.username,
             submitted: new Date().getTime(),
             version: 1,
-            countCard: 0
+            cardCount: 0
         });
 
         return Decks.insert(deck);

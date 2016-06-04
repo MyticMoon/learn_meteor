@@ -21,6 +21,19 @@ Meteor.methods({
         });
 
         var cardId = Cards.insert(card);
+
+        // Increase deckId count by 1
+        var deck = Decks.findOne({_id: card.deckId});
+        deck.cardCount = deck.cardCount + 1;
+        Decks.update(card.deckId, {$set: deck}, function (error) {
+            if (error) {
+                throwError(error.reason);
+                if (error.error === 302) {
+                    //Router.go('postPage', {_id: error.details}, {});
+                }
+            }
+        });
+
         return cardId;
     },
 
