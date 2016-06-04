@@ -6,5 +6,10 @@ Template.cardsList.helpers({
     'currentDeckId': function()
     {
         return {_id: Session.get('currentDeckId')};
+    },
+    hasMoreCards: function() {
+        this.cards.rewind();
+        if(!Router.current().cardsLimit()) return false;
+        return Router.current().cardsLimit() == this.cards.fetch().length;
     }
 });

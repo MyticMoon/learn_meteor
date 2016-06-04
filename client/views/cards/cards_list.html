@@ -28,5 +28,9 @@
         {{#each cardsList}}
             {{> cardItem}}
         {{/each}}
+
+        {{#if hasMoreCards}}
+            <a class="load-more" href="{{nextPath}}">Load more</a>
+        {{/if}}
     </div>
 </template>

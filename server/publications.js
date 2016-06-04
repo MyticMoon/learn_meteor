@@ -10,8 +10,9 @@ Meteor.publish('cards', function(options) {
     return Cards.find({}, options);
 });
 
-Meteor.publish('cardsInDeck', function(query ,sort, limit) {
-    return Cards.find(query, {sort: sort, limit: limit});
+Meteor.publish('newCards', function(terms) {
+    var parameters = queryConstructor(terms);
+    return Cards.find(parameters.find, parameters.options);
 });
 
 Meteor.publish('marketPlace', function(options){
