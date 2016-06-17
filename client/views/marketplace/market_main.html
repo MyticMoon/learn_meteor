@@ -1,4 +1,7 @@
 <template name="marketMain">
+    <br/>
+    <input class="form-control" name="search_field" type="text" value={{textQuery}} placeholder="Search" autofocus>
+    <br/>
     <div class="card-columns">
         {{#each marketDeckList}}
             {{> marketDeck}}

@@ -8,7 +8,9 @@ Template.marketDeck.events({
 
         var marketDeckId = $(e.target).find('[name=deckId]').val();
 
-        var deckInMarket = Decks.find({_id: marketDeckId, type: 'marketDeck'});
+        Session.set('currentDeckId', marketDeckId);
+
+        var deckInMarket = MarketPlace.find({_id: marketDeckId, type: 'marketDeck'});
         if(deckInMarket.count() == 0)
         {
             alert("Deck couldn't be found in market");

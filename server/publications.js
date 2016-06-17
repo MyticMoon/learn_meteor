@@ -6,6 +6,11 @@ Meteor.publish('decks', function(options){
     return Decks.find({}, options);
 });
 
+Meteor.publish('decksInMarket', function(terms){
+    var parameters = queryConstructor(terms);
+    return MarketPlace.find(parameters.find, parameters.options);
+});
+
 Meteor.publish('cards', function(options) {
     return Cards.find({}, options);
 });
@@ -22,3 +27,4 @@ Meteor.publish('marketPlace', function(options){
 Meteor.publish('learnHistory', function(options){
     return LearnHistory.find({}, options);
 });
+

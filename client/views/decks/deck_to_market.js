@@ -46,7 +46,7 @@ Template.deckToMarket.events({
                     return cardToMarket;
                 });
 
-                Meteor.call('postCardsToMarket', cardsToMarket, function(error){
+                Meteor.call('addCardsToDeck', cardsToMarket, function(error){
                    if(error) {
                        throwError(error.reason);
                    }
