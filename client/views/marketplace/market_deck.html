@@ -17,6 +17,9 @@
                 </fieldset>
                 <button type="submit" value="submit" class="btn btn-primary submit">Purchase Desk</button>
             </form>
+            <br>
+            <a class="btn btn-primary" href="{{ pathFor 'marketDeckView' }}">View Details</a>
+            <a href="{{pathFor 'marketDeckView'}}">{{commentsCount}} comments</a>
             {{#unless isAuthor}} <a class="btn btn-primary" href="">Get Deck</a> {{/unless}}
         </div>
     </div>

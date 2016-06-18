@@ -28,3 +28,6 @@ Meteor.publish('learnHistory', function(options){
     return LearnHistory.find({}, options);
 });
 
+Meteor.publish('comments', function(marketDeckId){
+    return Comments.find({marketDeckId: marketDeckId});
+});

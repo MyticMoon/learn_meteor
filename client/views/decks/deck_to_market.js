@@ -18,6 +18,7 @@ Template.deckToMarket.events({
             title: $(e.target).find('[name=title]').val(),
             description: $(e.target).find('[name=description]').val(),
             price: $(e.target).find('[name=price]').val(),
+            cardCount: $(e.target).find('[name=cardCount]').val(),
             originalDeckId: currentDeckId,
             type: "marketDeck"
         };

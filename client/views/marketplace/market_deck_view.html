@@ -1,0 +1,22 @@
+<template name="marketDeckView">
+    <div class="card">
+        <div class="card-block">
+            <p>Deck Title</p>
+            <p>{{title}}</p>
+            <p>Card Count</p>
+            <p>{{cardCount}}</p>
+        </div>
+
+        <ul class="comments">
+            {{#each comments}}
+                {{> comment}}
+            {{/each}}
+        </ul>
+
+        {{#if currentUser}}
+            {{> commentSubmit}}
+        {{else}}
+            <p>Please log in to leave a comment.</p>
+        {{/if}}
+    </div>
+</template>
