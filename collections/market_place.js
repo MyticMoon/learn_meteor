@@ -19,7 +19,8 @@ Meteor.methods({
             author: user.username,
             submitted: new Date().getTime(),
             version: originalDeck.version,
-            countCard: 0
+            countCard: 0,
+            commentsCount: 0
         });
 
         return MarketPlace.insert(deck);
