@@ -7,13 +7,12 @@ Notifications.allow({
 createCommentNotification = function(comment){
     var marketDeck = MarketPlace.findOne(comment.marketDeckId);
     if(comment.userId != marketDeck.userId) {
-        Notification.insert({
+        Notifications.insert({
             userId: marketDeck.userId,
             marketDeckId: marketDeck._id,
             commentId: comment._id,
             commenterName: comment.author,
             read: false
-
         });
     }
 };
