@@ -33,5 +33,5 @@ Meteor.publish('comments', function(marketDeckId){
 });
 
 Meteor.publish('notifications', function(options){
-    return Notifications.find({}, options);
+    return Notifications.find({userId: this.userId});
 });
