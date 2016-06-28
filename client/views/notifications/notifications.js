@@ -18,3 +18,4 @@ Template.notification.events({
         Notifications.update(this._id, {$set: {read:true}});
     }
 });
+

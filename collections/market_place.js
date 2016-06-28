@@ -46,6 +46,14 @@ Meteor.methods({
             countCard: 0
         });
 
+        var purchase = {
+            userId: user._id,
+            userName: user.username,
+            marketDeckId: deckToMarket.originalMarketDeckId
+        };
+
+        createPurchaseNotification(purchase);
+
         return Decks.insert(deck);
     }
 });
