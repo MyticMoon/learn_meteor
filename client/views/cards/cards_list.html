@@ -1,6 +1,7 @@
 <template name="cardsList">
     <a class="btn btn-primary" href="{{pathFor 'deckEdit' data=currentDeckId}}">Edit Deck</a>
     <a class="btn btn-info" href="{{pathFor 'learnDeck' data=currentDeckId}}">Learn Deck</a>
+    <a class="btn btn-info" href="{{pathFor 'learnDeckMCQ' data=currentDeckId}}">Learn Deck MCQ</a>
     <a class="btn btn-info" href="{{pathFor 'deckToMarket' data=currentDeckId}}">Bring To Market</a>
     <br/>
     <input class="form-control" name="search_field" type="text" value={{textQuery}} placeholder="Search" autofocus>
