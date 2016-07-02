@@ -34,7 +34,7 @@ getCardsForMCQ = function(learnDeckType, deckId) {
 
         //Get the first card as card to learnt, the rest are used as options.
 
-        var cardToLearn = cards[0];
+        var cardToLearn = cards[Math.floor(Math.random() * 5)];
 
         //Add new MCQ options attribute to the cardToLearn then add to LearnDeck
 

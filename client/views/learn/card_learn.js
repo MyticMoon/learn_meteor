@@ -68,7 +68,7 @@ getCardsToLearn = function(learnDeckType, deckId) {
         }
         var listOfDecksId = decks.map(function(element){return element._id;});
         cards = Cards.find({deckId: {$in: listOfDecksId}});
-        cards = randomizeCard(cards, 4);
+        cards = randomizeCard(cards, 1);
         //listOfCardIds = cards.map(function(card) {return card._id});
         //addLearningDeck(listOfCardIds, learnDeckType, deckId);
         //return cards;
@@ -96,7 +96,7 @@ getCardsToLearn = function(learnDeckType, deckId) {
 
 randomizeCard = function(cardList, numberOfCards) {
     cardList = cardList.map(function(card) { card.randomPoint = card.memoryPoint * Math.random(); return card; });
-    cardList = cardList.sort(function(a, b) {return a.randomPoint < b.randomPoint;});
+    cardList = cardList.sort(function(a, b) {return a.randomPoint > b.randomPoint;});
     if(cardList.length < numberOfCards)
     {
         numberOfCards = cardList.length;
