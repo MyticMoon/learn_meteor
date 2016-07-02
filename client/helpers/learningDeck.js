@@ -3,19 +3,19 @@
  */
 LearningDeck = new Meteor.Collection(null);
 
-removeLearningDeck = function(cardId, deckType) {
-    LearningDeck.remove({cardId: cardId, learnDeckType: deckType});
+removeLearningDeck = function(cardId, deckType, deckId) {
+    LearningDeck.remove({_id: cardId, learnDeckType: deckType, deckId: deckId});
 };
 
-addLearningDeck = function(ids, deckType) {
-    var cardToLearns =  ids.map(function(id) { return { cardId: id, attempt: 0, learnDeckType: deckType } });
-    _.each(cardToLearns, function(cardToLearn) {
-        LearningDeck.insert(cardToLearn);
-    });
-};
+//addLearningDeck = function(ids, deckType, deckId) {
+//    var cardToLearns =  ids.map(function(id) { return { cardId: id, attempt: 0, learnDeckType: deckType, deckId: deckId } });
+//    _.each(cardToLearns, function(cardToLearn) {
+//        LearningDeck.insert(cardToLearn);
+//    });
+//};
 
-increaseAttempt = function(id, deckType) {
-    var learningCard = LearningDeck.findOne({cardId: id, learnDeckType: deckType});
+increaseAttempt = function(id, deckType, deckId) {
+    var learningCard = LearningDeck.findOne({_id: id, learnDeckType: deckType});
     var card = Cards.findOne({_id: id});
     var score = 10;
 
@@ -32,15 +32,15 @@ increaseAttempt = function(id, deckType) {
     });
 
     if(learningCard.attempt == 2) {
-        removeLearningDeck(id, deckType);
+        removeLearningDeck(id, deckType, deckId);
     }
     else{
         LearningDeck.update({cardId: id, learnDeckType: deckType}, {$inc: {attempt: 1}});
     }
 };
 
-answerCorrect = function(id, deckType) {
-    var card = Cards.findOne({_id: id});
+answerCorrect = function(id, deckType, deckId) {
+    var card = Cards.findOne({_id: id, deckId: deckId});
     var score = 0;
     if (typeof card.memoryPoint != "undefined") {
         score = card.memoryPoint;
@@ -52,8 +52,8 @@ answerCorrect = function(id, deckType) {
     }
     card.memoryPoint = score;
 
-    Cards.update(id, {$set: card}, function(error) {
+    Cards.update(id, {$set: {memoryPoint: score}}, function(error) {
     });
 
-    removeLearningDeck(id, deckType);
+    removeLearningDeck(id, deckType, deckId);
 };

@@ -1,51 +1,61 @@
 Template.learnPage.helpers({
     'cardsLearn': function(){
-        return getCardsToLearn("mainLearnPage");
+        return getCardsToLearn("mainLearnPage", 0);
     }
 });
 
 Template.cardLearn.events({
     'submit form': function(e) {
         e.preventDefault();
-        checkUserAnswer(e, "mainLearnPage");
+        checkUserAnswer(e, "mainLearnPage", 0);
     }
 });
 
 Template.learnDeck.helpers({
     'cardsLearn': function() {
-        var currentLearningDeck = Session.get('currentLearningDeck');
-        return getCardsToLearn(currentLearningDeck);
+        var learningDeckId = Session.get('learningDeckId');
+        var learningDeckType = Session.get('learningDeckType');
+        return getCardsToLearn(learningDeckType, learningDeckId);
     }
 });
 
 Template.learnCardOneDeck.events({
     'submit form': function(e) {
         e.preventDefault();
-        var currentLearningDeck = Session.get('currentLearningDeck');
-        checkUserAnswer(e, currentLearningDeck);
+        var learningDeckId = Session.get('learningDeckId');
+        var learningDeckType = Session.get('learningDeckType');
+        checkUserAnswer(e, learningDeckType, learningDeckId);
     }
 });
 
-checkUserAnswer = function(e, learnDeckType) {
+checkUserAnswer = function(e, learnDeckType, deckId) {
+
+    if(learnDeckType === "MCQ") {
+        var userInput = $(e.target).find('[name=userInput]:checked').val();
+    }
+    else{
+        userInput = $(e.target).find('[name=userInput]').val();
+    }
+
     var learnHistory = {
         cardId: $(e.target).find('[name=cardId]').val(),
-        userInput: $(e.target).find('[name=userInput]').val(),
+        userInput: userInput,
         keyword: $(e.target).find('[name=keyword]').val()
     };
 
     if(learnHistory.userInput == learnHistory.keyword){
         alert("Correct");
-        answerCorrect(learnHistory.cardId, learnDeckType);
+        answerCorrect(learnHistory.cardId, learnDeckType, deckId);
     }
     else{
         alert("Incorrect");
-        increaseAttempt(learnHistory.cardId, learnDeckType);
+        increaseAttempt(learnHistory.cardId, learnDeckType, deckId);
     }
 };
 
 
-getCardsToLearn = function(learnDeckType) {
-    var cardToLearns = LearningDeck.find({learnDeckType: learnDeckType});
+getCardsToLearn = function(learnDeckType, deckId) {
+    var cardToLearns = LearningDeck.find({learnDeckType: learnDeckType, deckId: deckId});
     var cards = [];
     var listOfCardIds = [];
     if(cardToLearns.count() == 0) {
@@ -54,19 +64,33 @@ getCardsToLearn = function(learnDeckType) {
             decks = Decks.find({userId: Meteor.userId()});
         }
         else {
-            decks = Decks.find({userId: Meteor.userId(), _id: learnDeckType});
+            decks = Decks.find({userId: Meteor.userId(), _id: deckId});
         }
         var listOfDecksId = decks.map(function(element){return element._id;});
         cards = Cards.find({deckId: {$in: listOfDecksId}});
         cards = randomizeCard(cards, 4);
-        listOfCardIds = cards.map(function(card) {return card._id});
-        addLearningDeck(listOfCardIds, learnDeckType);
+        //listOfCardIds = cards.map(function(card) {return card._id});
+        //addLearningDeck(listOfCardIds, learnDeckType, deckId);
+        //return cards;
+
+        cards = cards.map(function(card) {
+             card = _.extend(card,{
+                 learnDeckType: learnDeckType,
+                 attempt: 0
+            });
+            return card;
+        });
+
+        cards.map(function(card) {
+            LearningDeck.insert(card);
+        });
         return cards;
     }
     else {
-        listOfCardIds = cardToLearns.map(function(cardToLearn) {return cardToLearn.cardId});
-        cards = Cards.find({_id: {$in: listOfCardIds}});
-        return cards;
+        //listOfCardIds = cardToLearns.map(function(cardToLearn) {return cardToLearn.cardId});
+        //cards = Cards.find({_id: {$in: listOfCardIds}});
+        //return cards;
+        return cardToLearns.fetch();
     }
 };
 

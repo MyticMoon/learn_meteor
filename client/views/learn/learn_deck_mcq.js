@@ -9,7 +9,7 @@ Template.learnDeckMCQ.events({
     'submit form': function(e) {
         e.preventDefault();
         var currentLearningDeck = Session.get('currentLearningDeck');
-        checkUserAnswer(e, currentLearningDeck);
+        checkUserAnswer(e, "MCQ", currentLearningDeck);
     }
 });
 
