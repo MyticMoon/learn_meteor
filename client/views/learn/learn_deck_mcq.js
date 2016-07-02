@@ -5,6 +5,14 @@ Template.learnDeckMCQ.helpers({
     }
 });
 
+Template.learnDeckMCQ.events({
+    'submit form': function(e) {
+        e.preventDefault();
+        var currentLearningDeck = Session.get('currentLearningDeck');
+        checkUserAnswer(e, currentLearningDeck);
+    }
+});
+
 getCardsForMCQ = function(learnDeckType, deckId) {
     var cardToLearns = LearningDeck.find({learnDeckType: learnDeckType, deckId: deckId});
     var cards = [];
@@ -28,7 +36,7 @@ getCardsForMCQ = function(learnDeckType, deckId) {
 
         var cardToLearn = cards[0];
 
-        //Add new attributes to the cardToLearn then add LearnDeck
+        //Add new MCQ options attribute to the cardToLearn then add to LearnDeck
 
         cardToLearn = _.extend(cardToLearn,{
             learnDeckType: learnDeckType,
