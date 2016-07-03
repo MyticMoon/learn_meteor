@@ -32,7 +32,7 @@ getCardsForMCQ = function(learnDeckType, deckId) {
         }
         cards = randomizeCard(cards, 5);
 
-        //Get the first card as card to learnt, the rest are used as options.
+        //Get a random card as card to learnt, the rest are used as options.
 
         var cardToLearn = cards[Math.floor(Math.random() * 5)];
 
@@ -42,8 +42,11 @@ getCardsForMCQ = function(learnDeckType, deckId) {
             learnDeckType: learnDeckType,
             options: cards.map(function(card){
                 return card.keyword;
-            })
+            }),
+            cardId: cardToLearn._id
         });
+
+        delete cardToLearn._id;
 
         LearningDeck.insert(cardToLearn);
 

@@ -4,7 +4,7 @@
 LearningDeck = new Meteor.Collection(null);
 
 removeLearningDeck = function(cardId, deckType, deckId) {
-    LearningDeck.remove({_id: cardId, learnDeckType: deckType, deckId: deckId});
+    LearningDeck.remove({cardId: cardId, learnDeckType: deckType, deckId: deckId});
 };
 
 //addLearningDeck = function(ids, deckType, deckId) {
@@ -15,7 +15,7 @@ removeLearningDeck = function(cardId, deckType, deckId) {
 //};
 
 increaseAttempt = function(id, deckType, deckId) {
-    var learningCard = LearningDeck.findOne({_id: id, learnDeckType: deckType});
+    var learningCard = LearningDeck.findOne({cardId: id, learnDeckType: deckType});
     var card = Cards.findOne({_id: id});
     var score = 10;
 
@@ -40,7 +40,7 @@ increaseAttempt = function(id, deckType, deckId) {
 };
 
 answerCorrect = function(id, deckType, deckId) {
-    var card = Cards.findOne({_id: id, deckId: deckId});
+    var card = Cards.findOne({_id: id});
     var score = 0;
     if (typeof card.memoryPoint != "undefined") {
         score = card.memoryPoint;

@@ -76,8 +76,10 @@ getCardsToLearn = function(learnDeckType, deckId) {
         cards = cards.map(function(card) {
              card = _.extend(card,{
                  learnDeckType: learnDeckType,
-                 attempt: 0
+                 attempt: 0,
+                 cardId: card._id
             });
+            delete card._id;
             return card;
         });
 
