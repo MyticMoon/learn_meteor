@@ -137,8 +137,6 @@ Template.cardEdit.events({
     "click button.crop": function(){
         $('#description_image').cropper('getCroppedCanvas');
     }
-
-
 });
 
 Template.s3_tester.helpers({
