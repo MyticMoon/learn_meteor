@@ -27,7 +27,9 @@ increaseAttempt = function(id, deckType, deckId) {
     if(score < 0) {
         score = 0;
     }
+    // Update memoryPoint and memoryPointHistory
     card.memoryPoint = score;
+    card.memoryPointHistory.push({dateTime: new Date().getTime(), memoryPoint: score});
     Cards.update(id, {$set: card}, function(error) {
     });
 
@@ -50,9 +52,12 @@ answerCorrect = function(id, deckType, deckId) {
     if(score > 100) {
         score = 100;
     }
+    // Update memoryPoint and memoryPointHistory
     card.memoryPoint = score;
+    var memoryPointHistory = card.memoryPointHistory;
+    memoryPointHistory.push({dateTime: new Date().getTime(), memoryPoint: score});
 
-    Cards.update(id, {$set: {memoryPoint: score}}, function(error) {
+    Cards.update(id, {$set: {memoryPoint: score, memoryPointHistory: memoryPointHistory}}, function(error) {
     });
 
     removeLearningDeck(id, deckType, deckId);

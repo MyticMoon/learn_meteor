@@ -17,7 +17,8 @@ Meteor.methods({
             authorId: user._id,
             author: user.username,
             submitted: new Date().getTime(),
-            memoryPoint: 10
+            memoryPoint: 10,
+            memoryPointHistory: [{dateTime: new Date().getTime(), memoryPoint: 10}]
         });
 
         var cardId = Cards.insert(card);
