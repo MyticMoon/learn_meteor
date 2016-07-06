@@ -29,7 +29,7 @@ Template.learningCurve.onRendered(function(){
             data: {
                 labels: labels,
                 datasets: [{
-                    label: "My First dataset",
+                    label: "Learning Curve",
                     //data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()],
                     data: data,
                     fill: false
@@ -65,20 +65,20 @@ Template.learningCurve.onRendered(function(){
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Month'
+                            labelString: 'DateTime'
                         }
                     }],
                     yAxes: [{
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Value'
+                            labelString: 'Memory Point'
                         }
                     }]
                 },
                 title: {
                     display: true,
-                    text: 'Chart.js Line Chart - Legend'
+                    text: 'Learning Curve'
                 }
             }
         };
