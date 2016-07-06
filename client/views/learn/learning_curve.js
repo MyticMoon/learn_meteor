@@ -11,13 +11,27 @@ Template.learningCurve.onRendered(function(){
         var randomColor = function(opacity) {
             return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
         };
+
+        var currentCardId = Session.get("currentCardId");
+        var card = Cards.find({_id: "e3MSJsm5ERCWKM7Th"}).fetch()[0];
+        var memoryPointHistory = card.memoryPointHistory;
+        var labels = [];
+        var data = [];
+        $.each(memoryPointHistory, function(key,value){
+            if(value.dateTime) {
+                labels.push(moment(new Date(value.dateTime).toString()).format('MM/DD/YYYY h:mm a'));
+                data.push(value.memoryPoint);
+            }
+        });
+
         var config = {
             type: 'line',
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: labels,
                 datasets: [{
                     label: "My First dataset",
-                    data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()],
+                    //data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()],
+                    data: data,
                     fill: false
                     //borderDash: [5, 5]
                 }
