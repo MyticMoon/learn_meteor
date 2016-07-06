@@ -1,6 +1,7 @@
 <template name="cardEdit">
-    <div class="card">
-        <div class="card-block">
+    <div class="card" style="background-color: #333; border-color: #333; width: 600px;">
+        <img class="card-img" style=" width: 100%;height: auto;" src="https://res.cloudinary.com/nightfable/image/upload/v1453125264/card9resized_wlzccl.jpg" alt="Card image">
+        <div class="card-img-overlay">
             <form>
                 <fieldset class="form-group"><label for="exampleInputEmail1">Edit Card</label>
                     <input type="text" name="title" value="{{title}}" class="form-control" placeholder="Card name" autocomplete="off" style="">
@@ -18,7 +19,6 @@
                 </fieldset>
                 <button type="submit" value="submit" class="btn btn-primary submit">Submit</button>
                 <button class="btn btn-danger delete">Delete</button>
-                <a class="btn btn-info" href="{{pathFor 'learningCurve'}}">Learning Curve</a>
             </form>
         </div>
     </div>

@@ -8,8 +8,10 @@
             </p>
             <p class="card-text"><b>{{keyword}}</b></p>
             <p class="card-text">{{definition}}</p>
-            <p class="card-text">Memory point is: {{memoryPoint}}</p>
-            {{#if ownCard}} <a href="{{pathFor 'cardEdit'}}">Edit</a> {{/if}}
+            <!--<p class="card-text">Memory point is: {{memoryPoint}}</p>-->
+            {{#if ownCard}} <a class="btn btn-info card-text" href="{{pathFor 'cardEdit'}}">Edit</a> {{/if}} <br>
+            <a class="btn btn-info card-text" href="{{pathFor 'learningCurve'}}">Memory Point: {{memoryPoint}}</a>
+
         </div>
     </div>
 </template>
