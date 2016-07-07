@@ -1,7 +1,3 @@
-var world = function () {
-    console.log('World!');
-};
-
 var decayMemoryPoint = function() {
     console.log("decay");
     var cards = Cards.find().fetch();
@@ -22,14 +18,8 @@ var decayMemoryPoint = function() {
     });
 };
 
-var myBirthDay = function () {
-    console.log('My Birth Day!');
-};
-
 var cron = new Meteor.Cron( {
     events:{
-        "* * * * *"  : world,
         "* * * * *"  : decayMemoryPoint,
-        "0 0 18 6 *" : myBirthDay
     }
 });

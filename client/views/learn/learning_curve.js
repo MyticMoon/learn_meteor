@@ -13,7 +13,7 @@ Template.learningCurve.onRendered(function(){
         };
 
         var currentCardId = Session.get("currentCardId");
-        var card = Cards.find({_id: "e3MSJsm5ERCWKM7Th"}).fetch()[0];
+        var card = Cards.find({_id: currentCardId}).fetch()[0];
         var memoryPointHistory = card.memoryPointHistory;
         var labels = [];
         var data = [];
