@@ -20,6 +20,6 @@ var decayMemoryPoint = function() {
 
 var cron = new Meteor.Cron( {
     events:{
-        "* * * * *"  : decayMemoryPoint,
+        "* * * * *"  : decayMemoryPoint
     }
 });
