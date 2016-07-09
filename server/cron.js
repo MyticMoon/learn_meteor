@@ -1,5 +1,4 @@
 var decayMemoryPoint = function() {
-    console.log("decay");
     var cards = Cards.find().fetch();
 
     cards.forEach(function(card){

@@ -9,16 +9,25 @@ Meteor.methods({
         if(!deckAttributes.title)
             throw new Meteor.Error(422, "Please fill with a headline");
 
-        var deck = _.extend(_.pick(deckAttributes, 'title', 'type'), {
-            userId: user._id,
-            authorId: user._id,
-            author: user.username,
-            submitted: new Date().getTime(),
-            version: 1,
-            cardCount: 0
-        });
+        var userPermission = getUserRight(user.userType);
 
-        return Decks.insert(deck);
+        var decks = Decks.find({userId: user._id, type: "personalDeck"}).fetch();
+
+        if(decks.length >= userPermission.numberOfPersonalDeck){
+            alert("You have reached your deck limit");
+        }
+        else{
+            var deck = _.extend(_.pick(deckAttributes, 'title', 'type'), {
+                userId: user._id,
+                authorId: user._id,
+                author: user.username,
+                submitted: new Date().getTime(),
+                version: 1,
+                cardCount: 0
+            });
+
+            return Decks.insert(deck);
+        }
     }
 });
 
