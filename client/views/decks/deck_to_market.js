@@ -9,7 +9,7 @@ Template.deckToMarket.events({
         var deckInMarket = Decks.find({originalDeckId: currentDeckId, type: 'marketDeck'});
         if(deckInMarket.count() != 0)
         {
-            alert("Deck was published before");
+            sAlert.warning("Deck was published before");
             throw new Meteor.Error(422, "Deck was published before");
         }
 

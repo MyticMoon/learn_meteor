@@ -1,7 +1,7 @@
 //Meteor.startup(function () {
     sAlert.config({
         effect: '',
-        position: 'top-right',
+        position: 'bottom',
         timeout: 5000,
         html: false,
         onRouteClose: true,

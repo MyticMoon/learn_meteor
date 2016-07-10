@@ -17,7 +17,7 @@ Template.postEdit.events({
 
         Posts.update(currentPostId, {$set: postProperties}, function (error) {
             if (error) {
-                alert(error.reason);
+                sAlert.warning(error.reason);
             } else {
                 Router.go('postPage', {_id: currentPostId});
             }

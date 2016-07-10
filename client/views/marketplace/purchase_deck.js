@@ -13,7 +13,7 @@ Template.marketDeck.events({
         var deckInMarket = MarketPlace.find({_id: marketDeckId, type: 'marketDeck'});
         if(deckInMarket.count() == 0)
         {
-            alert("Deck couldn't be found in market");
+            sAlert.warning("Deck couldn't be found in market");
             throw new Meteor.Error(422, "Deck couldn't be found in market");
         }
 
@@ -53,7 +53,7 @@ Template.marketDeck.events({
                         throwError(error.reason);
                     }
                     else {
-                        alert('Purchased successfully');
+                        sAlert.success('Purchased successfully');
                         Router.go('cardsList', {_id: currentDeckId});
                     }
                 });

@@ -27,7 +27,7 @@ getCardsForMCQ = function(learnDeckType, deckId) {
         var listOfDecksId = decks.map(function(element){return element._id;});
         cards = Cards.find({deckId: {$in: listOfDecksId}});
         if(cards.count() < 5) {
-            alert("The deck must have minimum 5 cards.");
+            sAlert.warning("The deck must have minimum 5 cards.");
             return [];
         }
         cards = randomizeCard(cards, 5);

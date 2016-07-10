@@ -17,7 +17,7 @@
     </head>
 
     <body class="layout-container ls-top-navbar si-l3-md-up breakpoint-1200">
-    {{> sAlert}}
+
     <!-- App -->
     <nav class="navbar navbar-light bg-white navbar-full navbar-fixed-top ls-left-sidebar">
         <button class="navbar-toggler pull-xs-left active" type="button" data-toggle="sidebar" data-target="#sidebar">
@@ -47,7 +47,9 @@
         <div class="container-fluid">
 
 
+
             <div class="container">
+                {{> sAlert}}
                 {{> yield}}
             </div>
 

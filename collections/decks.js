@@ -14,7 +14,7 @@ Meteor.methods({
         var decks = Decks.find({userId: user._id, type: "personalDeck"}).fetch();
 
         if(decks.length >= userPermission.numberOfPersonalDeck){
-            alert("You have reached your deck limit");
+            sAlert.warning("You have reached your deck limit");
         }
         else{
             var deck = _.extend(_.pick(deckAttributes, 'title', 'type'), {

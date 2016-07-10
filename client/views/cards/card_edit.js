@@ -74,7 +74,7 @@ Template.cardEdit.events({
         var file = $("input.file_bag")[0].files[0];
         if(file.size > 5000000)
         {
-            alert("The image is too big.");
+            sAlert.warning("The image is too big.");
             return;
         }
 
@@ -129,7 +129,7 @@ Template.cardEdit.events({
                 });
             }
             else{
-                alert("Upload has failed");
+                sAlert.warning("Upload has failed");
             }
         });
     },

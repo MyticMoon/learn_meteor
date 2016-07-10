@@ -44,11 +44,11 @@ checkUserAnswer = function(e, learnDeckType, deckId) {
     };
 
     if(learnHistory.userInput == learnHistory.keyword){
-        sAlert.error('Correct');
+        sAlert.success('Correct!');
         answerCorrect(learnHistory.cardId, learnDeckType, deckId);
     }
     else{
-        sAlert.error('Incorrect');
+        sAlert.warning('Incorrect!');
         increaseAttempt(learnHistory.cardId, learnDeckType, deckId);
     }
 };

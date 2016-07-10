@@ -28,7 +28,7 @@ Template.deckEdit.events({
             var currentDeckId = Session.get('currentDeckId');
             var cards = Cards.find({deckId: currentDeckId});
             if(cards.count() > 0) {
-                alert("Can't remove deck contains cards");
+                sAlert.warning("Can't remove deck contains cards");
             }
             else{
                 Decks.remove(currentDeckId);
