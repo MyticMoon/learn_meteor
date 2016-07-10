@@ -1,5 +1,5 @@
 Meteor.publish('userData', function () {
-    return Meteor.users.find({_id: Meteor.userId()}, {fields: {userType: 1, profile : 1}});
+    return Meteor.users.find({_id: this.userId}, {fields: {userType: 1, profile : 1}});
 });
 
 Meteor.publish('posts', function(options){
