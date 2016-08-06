@@ -1,0 +1,17 @@
+<template name="selectPlan">
+    <div class="list-group select-plan">
+        <form id="select-plan">
+            {{#each plans}}
+                <a href="#" class="list-group-item">
+                    <input type="radio" name="selectPlan" id="selectPlan_{{name}}" value="{{name}}">
+                    {{capitalize name}}: {{limitString limit}} <span class="pull-right">{{amount.usd}} / {{interval}}</span>
+                </a>
+            {{/each}}
+
+            {{> creditCard}}
+
+            <button name="submitPlan" type="submit" value="submit" class="btn btn-primary submit" data-loading-text="Setting up your trial...">Submit</button>
+        </form>
+
+    </div>
+</template>
