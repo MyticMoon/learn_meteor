@@ -1,29 +1,125 @@
+<!--<template name="creditCard">-->
+    <!--<form>-->
+        <!--<div class="row">-->
+            <!--<div class="col-xs-12">-->
+                <!--<div class="form-group">-->
+                    <!--<label class="text-success"><i class="fa fa-lock"></i> Card Number (Totes Secure, Like a Bank)</label>-->
+                    <!--<input type="text" data-stripe="cardNumber" class="form-control card-number" placeholder="Card Number">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div> &lt;!&ndash; end .row &ndash;&gt;-->
+        <!--<div class="row">-->
+            <!--<div class="col-xs-4">-->
+                <!--<label>Exp. Mo.</label>-->
+                <!--<input type="text" data-stripe="expMo" class="form-control exp-month" placeholder="Exp. Mo.">-->
+            <!--</div>-->
+            <!--<div class="col-xs-4">-->
+                <!--<label>Exp. Yr.</label>-->
+                <!--<input type="text" data-stripe="expYr" class="form-control exp-year" placeholder="Exp. Yr.">-->
+            <!--</div>-->
+            <!--<div class="col-xs-4">-->
+                <!--<label>CVC</label>-->
+                <!--<input type="text" data-stripe="cvc" class="form-control cvc" placeholder="CVC">-->
+            <!--</div>-->
+        <!--</div> &lt;!&ndash; end .row &ndash;&gt;-->
+
+        <!--&lt;!&ndash;<button name="creditCard" type="submit" value="submit" class="btn btn-primary submit">Submit</button>&ndash;&gt;-->
+    <!--</form>-->
+
+<!--</template>-->
+
 <template name="creditCard">
-    <form>
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="form-group">
-                    <label class="text-success"><i class="fa fa-lock"></i> Card Number (Totes Secure, Like a Bank)</label>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label class="text-success"><i class="fa fa-lock"></i> Card Number (Totes Secure, Like a Bank)</label>
+                {{#if isBilling}}
+                    {{#if addNewCard}}
+                        <input type="text" data-stripe="cardNumber" class="form-control card-number" placeholder="Card Number">
+                        <p><a class="cancel-new-card" href="#">Cancel</a></p>
+                    {{else}}
+                        {{#if plan.subscription.payment.card}}
+                            <p class="alert alert-info">Card on File: <strong>{{plan.subscription.payment.card.type}}</strong> &mdash; ************{{plan.subscription.payment.card.lastFour}}</p>
+                            <p><a class="add-new-card" href="#">Add a New Card</a></p>
+                        {{/if}}
+                    {{/if}}
+                {{else}}
                     <input type="text" data-stripe="cardNumber" class="form-control card-number" placeholder="Card Number">
-                </div>
+                {{/if}}
             </div>
-        </div> <!-- end .row -->
-        <div class="row">
-            <div class="col-xs-4">
-                <label>Exp. Mo.</label>
-                <input type="text" data-stripe="expMo" class="form-control exp-month" placeholder="Exp. Mo.">
-            </div>
-            <div class="col-xs-4">
-                <label>Exp. Yr.</label>
-                <input type="text" data-stripe="expYr" class="form-control exp-year" placeholder="Exp. Yr.">
-            </div>
+        </div>
+    </div> <!-- end .row -->
+    <div class="row">
+        {{#if isBilling}}
+            <!--
+            If our dynamic template's data value equals billing-card, go ahead
+            and show the credit card details fields. If it's billing-resubscribe, hide
+            the fields by default, only showing them if our user asks to add a new card.
+            -->
+            {{#if isBillingCard}}
+                {{>creditCardDetails}}
+            {{else}}
+                {{#if addNewCard}}
+                    {{>creditCardDetails}}
+                {{/if}}
+            {{/if}}
+        {{else}}
+            <!--
+            If we're not on either of the billing views (i.e. signup), just show the
+            fields without any additional logic.
+            -->
+            {{>creditCardDetails}}
+        {{/if}}
+    </div> <!-- end .row -->
+</template>
+
+<template name="creditCardDetails">
+    <div class="col-xs-4">
+        <label>Exp. Mo.</label>
+        <input type="text" data-stripe="expMo" class="form-control exp-month" placeholder="Exp. Mo.">
+    </div>
+    <div class="col-xs-4">
+        <label>Exp. Yr.</label>
+        <input type="text" data-stripe="expYr" class="form-control exp-year" placeholder="Exp. Yr.">
+    </div>
+    {{#if isBilling}}
+        {{#if addNewCard}}
             <div class="col-xs-4">
                 <label>CVC</label>
                 <input type="text" data-stripe="cvc" class="form-control cvc" placeholder="CVC">
             </div>
-        </div> <!-- end .row -->
+        {{/if}}
+    {{else}}
+        <div class="col-xs-4">
+            <label>CVC</label>
+            <input type="text" data-stripe="cvc" class="form-control cvc" placeholder="CVC">
+        </div>
+    {{/if}}
+</template>
 
-        <!--<button name="creditCard" type="submit" value="submit" class="btn btn-primary submit">Submit</button>-->
-    </form>
-
+<template name="billingCard">
+    <div class="panel panel-default billing-module">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="{{pathFor 'billing'}}" class="text-muted">Billing</a> / Card</h3>
+        </div>
+        <form id="billing-card">
+            <div class="panel-body">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                            {{> Template.dynamic template="creditCard" data="billing-card"}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-success update-card" data-loading-text="Updating...">Update Card</button>
+                        <a href="{{pathFor 'billing'}}" class="btn btn-default">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </template>

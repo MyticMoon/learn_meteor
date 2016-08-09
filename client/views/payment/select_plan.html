@@ -8,10 +8,10 @@
                 </a>
             {{/each}}
 
-            {{> creditCard}}
+            {{> Template.dynamic template="creditCard"}}
 
             <button name="submitPlan" type="submit" value="submit" class="btn btn-primary submit" data-loading-text="Setting up your trial...">Submit</button>
         </form>
-
+            {{> billingOverview}}
     </div>
 </template>

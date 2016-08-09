@@ -1,7 +1,10 @@
 var Future = Npm.require('fibers/future');
-
+var Fiber  = Npm.require('fibers');
 var secret = Meteor.settings.private.stripe.testSecretKey;
 var Stripe = StripeAPI(secret);
+
+SERVER_AUTH_TOKEN = Random.secret();
+
 
 Meteor.methods({
     createTrialCustomer: function(customer){
@@ -44,7 +47,8 @@ Meteor.methods({
                                     subscription: {
                                         plan: {
                                             name: customer.plan,
-                                            used: 0
+                                            premiumDeckUsed: 0,
+                                            freeDeckUsed: 0
                                         },
                                         payment: {
                                             card: {
@@ -109,6 +113,153 @@ Meteor.methods({
             }
         });
         return stripeCustomer.wait();
+    },
+
+    stripeUpdateSubscription: function(plan){
+        check(plan, String);
+
+        var stripeUpdateSubscription = new Future();
+
+        var user    = Meteor.userId();
+        var getUser = Meteor.users.findOne({"_id": user}, {fields: {"customerId": 1}});
+
+        Stripe.customers.updateSubscription(getUser.customerId, {
+            plan: plan
+        }, function(error, subscription){
+            if (error) {
+                stripeUpdateSubscription.return(error);
+            } else {
+                Fiber(function(){
+                    var update = {
+                        auth: SERVER_AUTH_TOKEN,
+                        user: user,
+                        plan: plan,
+                        status: subscription.status,
+                        date: subscription.current_period_end
+                    };
+                    Meteor.call('updateUserPlan', update, function(error, response){
+                        if (error){
+                            stripeUpdateSubscription.return(error);
+                        } else {
+                            stripeUpdateSubscription.return(response);
+                        }
+                    });
+                }).run();
+            }
+        });
+
+        return stripeUpdateSubscription.wait();
+    },
+
+    stripeSwapCard: function(token){
+        // Check our arguments against their expected patterns.
+        check(token, String);
+
+        // Because Stripe's API is asynchronous (meaning it doesn't block our function
+        // from running once it's started), we need to make use of the Fibers/Future
+        // library. This allows us to create a return object that "waits" for us to
+        // return a value to it.
+        var stripeSwapCard = new Future();
+
+        // Before we jump into everything, we need to get our customer's ID. Recall
+        // that we can't send this over from the client because we're *not* publishing
+        // it to the client. Instead, here, we take the current userId from Meteor
+        // and lookup our customerId.
+        var user    = Meteor.userId();
+        var getUser = Meteor.users.findOne({"_id": user}, {fields: {"customerId": 1}});
+
+        // If all is well, call to the Stripe API to create our new card on our customer!
+        // Note: our stripeCreateCard method is not the same as creating a token. The difference
+        // here is that this creates a card _on our customer_ not the card token itself. To
+        // get our token, we'd call to our stripeCreateToken method (defined as an example above).
+
+        console.log(getUser.customerId);
+
+        console.log(token);
+
+        Stripe.customers.update(getUser.customerId, {
+            source: token
+        }, function(error, customer){
+            if (error) {
+                console.log(error);
+                stripeSwapCard.return(error);
+            } else {
+                var card = {
+                    lastFour: customer.sources.data[0].last4,
+                    type: customer.sources.data[0].brand
+                };
+                // Because we're running Meteor code inside of an async callback, we need to wrap
+                // it in a Fiber. Note: this is a verbose way of doing this. You could refactor this
+                // and the call to Stripe to use a Meteor.wrapAsync method instead. The difference is
+                // that while wrapAsync is cleaner syntax-wise, it can be a bit confusing.
+                Fiber(function(){
+                    var update = {
+                        auth: SERVER_AUTH_TOKEN,
+                        user: user,
+                        card: card
+                    };
+                    // And then we pass our update over to our updateUserPlan method.
+
+                    console.log(update.auth + " == " + SERVER_AUTH_TOKEN);
+
+                    Meteor.call('updateUserCard', update, function(error, response){
+                        if (error){
+                            stripeSwapCard.return(error);
+                        } else {
+                            stripeSwapCard.return(response);
+                        }
+                    });
+                }).run();
+            }
+        });
+
+        return stripeSwapCard.wait();
+    },
+
+    stripeUpdateCard: function(updates){
+        // Check our arguments against their expected patterns. This is especially
+        // important here because we're dealing with sensitive customer information.
+        check(updates, {
+            exp_month: String,
+            exp_year: String
+        });
+
+        // Because Stripe's API is asynchronous (meaning it doesn't block our function
+        // from running once it's started), we need to make use of the Fibers/Future
+        // library. This allows us to create a return object that "waits" for us to
+        // return a value to it.
+        var stripeUpdateCard = new Future();
+
+        // Before we jump into everything, we need to get our customer's ID. Recall
+        // that we can't send this over from the client because we're *not* publishing
+        // it to the client. Instead, here, we take the current userId from Meteor
+        // and lookup our customerId.
+        var user    = Meteor.userId();
+        var getUser = Meteor.users.findOne({"_id": user}, {fields: {"customerId": 1}});
+
+        // Because we're not storing our user's card ID, we need to call Stripe first to
+        // retrieve that information before we perform the update. This is key, because
+        // without it, Stripe won't know which card to update. Once we have this info,
+        // we call to Stripe *again* to update our customer's profile.
+        Meteor.call('stripeRetrieveCustomer', getUser.customerId, function(error, response){
+            if (error){
+                stripeUpdateCard.return(error);
+            } else {
+                var card = response.sources.data[0].id;
+                // If all is well, call to the Stripe API to update our card!
+                Stripe.customers.updateCard(getUser.customerId, card, updates, function(error, customer){
+                    if (error) {
+                        stripeUpdateCard.return(error);
+                    } else {
+                        stripeUpdateCard.return(customer);
+                    }
+                });
+            }
+        });
+
+        return stripeUpdateCard.wait();
     }
+
+
 });
 
