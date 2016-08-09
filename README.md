@@ -67,3 +67,10 @@ https://atmospherejs.com/lepozepo/s3
         }
         return new Blob([u8arr], {type:mime});
     };
+
+4) Register to webhook events from Stripe to do following things:
+
+    a) Each time the credit card transaction happens:
+        - Update user's subscription
+        - Generate user's invoice
+        ** Follow this tutorial: https://themeteorchef.com/recipes/building-a-saas-with-meteor-stripe-part-2/
