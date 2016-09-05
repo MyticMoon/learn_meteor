@@ -1,28 +1,6 @@
 var Future = Npm.require('fibers/future');
 
-
 Meteor.methods({
-    checkUserFreeDeckQuota: function(user, freeOrPremium) {
-        check(user, String);
-
-        var getUser  = Meteor.users.findOne({"_id": user}, {fields: {"subscription.plan": 1}}),
-            plan = getUser.subscription.plan,
-            planName = plan.name,
-            premiumDeckUsed = plan.premiumDeckUsed,
-            freeDeckUsed = plan.freeDeckUsed;
-
-        var availablePlans = Meteor.settings.public.plans;
-        var currentPlan = _.find(availablePlans, function(plan) { return plan.name == planName });
-        var freeDeckLimit = currentPlan.freeDeckLimit;
-        var premiumDeckLimit = currentPlan.premiumDeckLimit;
-
-        if(freeOrPremium == "free") {
-            return freeDeckUsed < freeDeckLimit;
-        }
-        else {
-            return premiumDeckUsed < premiumDeckLimit;
-        }
-    },
 
     updateUserPlan: function(update){
         // Check our update argument against our expected pattern.

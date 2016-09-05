@@ -1,6 +1,17 @@
 {
   "public": {
     "plans": [
+
+      {
+        "name": "free",
+        "amount": {
+          "cents": 0,
+          "usd": "$0"
+        },
+        "premiumDeckLimit": 1,
+        "freeDeckLimit": 5,
+        "interval": "month"
+      },
       {
         "name": "tiny",
         "amount": {

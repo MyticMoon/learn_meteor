@@ -30,7 +30,6 @@ Meteor.methods({
                     console.log(error);
                 } else {
 
-                    console.log(stripeCustomer);
 
                     var customerId = stripeCustomer.id,
                         plan       = customer.plan;
