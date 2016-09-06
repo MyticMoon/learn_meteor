@@ -18,7 +18,7 @@
                 <button type="submit" value="submit" class="btn btn-primary submit">Purchase Desk</button>
             </form>
             <br>
-            {{> starsRating rating=4.5 size=30 mutable=true}}
+            {{> starsRating rating=rating size=30 mutable=voteable class="starRating"}}
             <a class="btn btn-primary" href="{{ pathFor 'marketDeckView' }}">View Details</a>
             <a href="{{pathFor 'marketDeckView'}}">{{commentsCount}} comments</a>
             {{#unless isAuthor}} <a class="btn btn-primary" href="">Get Deck</a> {{/unless}}

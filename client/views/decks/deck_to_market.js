@@ -7,7 +7,7 @@ Template.deckToMarket.events({
         var currentDeckId = Session.get('currentDeckId');
 
         var deckInMarket = Decks.find({originalDeckId: currentDeckId, type: 'marketDeck'}).fetch();
-        if(deckInMarket.lenght != 0)
+        if(deckInMarket.length != 0)
         {
             sAlert.warning("Deck was published before");
             throw new Meteor.Error(422, "Deck was published before");
@@ -20,13 +20,10 @@ Template.deckToMarket.events({
             price: $(e.target).find('[name=price]').val(),
             cardCount: $(e.target).find('[name=cardCount]').val(),
             originalDeckId: currentDeckId,
-            type: "marketDeck"
+            type: "marketDeck",
+            votes: {},
+            rating: 3
         };
-
-        //clear input fields
-        //$(e.target).find('[name=title]').val('');
-        //$(e.target).find('[name=description]').val('');
-        //$(e.target).find('[name=price]').val('');
 
         Meteor.call('postDeckToMarket', deckToMarket, function (error, id) {
             if(error) {
