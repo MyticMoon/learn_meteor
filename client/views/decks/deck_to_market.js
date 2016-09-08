@@ -20,9 +20,7 @@ Template.deckToMarket.events({
             price: $(e.target).find('[name=price]').val(),
             cardCount: $(e.target).find('[name=cardCount]').val(),
             originalDeckId: currentDeckId,
-            type: "marketDeck",
-            votes: {},
-            rating: 3
+            type: "marketDeck"
         };
 
         Meteor.call('postDeckToMarket', deckToMarket, function (error, id) {

@@ -13,14 +13,15 @@ Meteor.methods({
         if(!originalDeck)
             throw new Meteor.Error(422, "Original deck can't be found");
 
-        var deck = _.extend(_.pick(deckToMarket, 'title', 'description', 'price', 'originalDeckId', 'type'), {
+        var deck = _.extend(_.pick(deckToMarket, 'title', 'description', 'price', 'originalDeckId', 'type', 'cardCount'), {
             userId: user._id,
             authorId: user._id,
             author: user.username,
             submitted: new Date().getTime(),
             version: originalDeck.version,
-            countCard: 0,
-            commentsCount: 0
+            commentsCount: 0,
+            votes: {},
+            rating: 3
         });
 
         return MarketPlace.insert(deck);

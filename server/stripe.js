@@ -97,8 +97,6 @@ Meteor.methods({
 
     stripeCreateCustomer: function(token, email){
         // Note: we'd check() both of our arguments here, but I've stripped this out for the sake of brevity.
-
-        console.log("Going to call stripe customer create");
         var stripeCustomer = new Future();
 
         Stripe.customers.create({
@@ -172,10 +170,6 @@ Meteor.methods({
         // here is that this creates a card _on our customer_ not the card token itself. To
         // get our token, we'd call to our stripeCreateToken method (defined as an example above).
 
-        console.log(getUser.customerId);
-
-        console.log(token);
-
         Stripe.customers.update(getUser.customerId, {
             source: token
         }, function(error, customer){
@@ -198,8 +192,6 @@ Meteor.methods({
                         card: card
                     };
                     // And then we pass our update over to our updateUserPlan method.
-
-                    console.log(update.auth + " == " + SERVER_AUTH_TOKEN);
 
                     Meteor.call('updateUserCard', update, function(error, response){
                         if (error){
